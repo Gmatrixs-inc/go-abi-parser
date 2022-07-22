@@ -20,7 +20,6 @@ import (
 var client *Client
 var networkID int64
 
-// InitClient 初始化接口对象
 func InitClient(uri string) {
 	var err error
 	client, err = Dial(uri)
@@ -29,7 +28,6 @@ func InitClient(uri string) {
 	}
 }
 
-// RpcBlockNumber 获取最新的block number
 func RpcBlockNumber(ctx context.Context) (int64, error) {
 	blockNum, err := client.BlockNumber(ctx)
 	if nil != err {
@@ -38,7 +36,6 @@ func RpcBlockNumber(ctx context.Context) (int64, error) {
 	return int64(blockNum), nil
 }
 
-// RpcBlockByNum 获取block信息
 func RpcBlockByNum(ctx context.Context, blockNum int64) (*types.Block, error) {
 	resp, err := client.BlockByNumber(ctx, big.NewInt(blockNum))
 	if nil != err {
@@ -47,7 +44,6 @@ func RpcBlockByNum(ctx context.Context, blockNum int64) (*types.Block, error) {
 	return resp, nil
 }
 
-// RpcNonceAt 获取nonce
 func RpcNonceAt(ctx context.Context, address string) (int64, error) {
 	count, err := client.NonceAt(
 		ctx,
@@ -60,7 +56,6 @@ func RpcNonceAt(ctx context.Context, address string) (int64, error) {
 	return int64(count), nil
 }
 
-// RpcNetworkID 获取block信息
 func RpcNetworkID(ctx context.Context) (int64, error) {
 	if networkID != 0 {
 		return networkID, nil
@@ -73,7 +68,6 @@ func RpcNetworkID(ctx context.Context) (int64, error) {
 	return resp.Int64(), nil
 }
 
-// RpcSendTransaction 发送交易
 func RpcSendTransaction(ctx context.Context, tx *types.Transaction) error {
 	err := client.SendTransaction(
 		ctx,
@@ -85,7 +79,6 @@ func RpcSendTransaction(ctx context.Context, tx *types.Transaction) error {
 	return nil
 }
 
-// RpcTransactionByHash 确认交易是否打包完成
 func RpcTransactionByHash(ctx context.Context, txHashStr string) (*types.Transaction, error) {
 	txHash := common.HexToHash(txHashStr)
 	tx, isPending, err := client.TransactionByHash(ctx, txHash)
@@ -98,7 +91,6 @@ func RpcTransactionByHash(ctx context.Context, txHashStr string) (*types.Transac
 	return tx, nil
 }
 
-// RpcTransactionReceipt 确认交易是否打包完成
 func RpcTransactionReceipt(ctx context.Context, txHashStr string) (*types.Receipt, error) {
 	txHash := common.HexToHash(txHashStr)
 	tx, err := client.TransactionReceipt(ctx, txHash)
@@ -108,7 +100,6 @@ func RpcTransactionReceipt(ctx context.Context, txHashStr string) (*types.Receip
 	return tx, nil
 }
 
-// RpcBalanceAt 获取余额
 func RpcBalanceAt(ctx context.Context, address string) (*big.Int, error) {
 	balance, err := client.BalanceAt(ctx, common.HexToAddress(address), nil)
 	if nil != err {
@@ -117,7 +108,6 @@ func RpcBalanceAt(ctx context.Context, address string) (*big.Int, error) {
 	return balance, nil
 }
 
-// RpcFilterLogs 获取日志
 func RpcFilterLogs(ctx context.Context, startBlock int64, endBlock int64, contractAddresses []string, event abi.Event) ([]types.Log, error) {
 	var warpAddresses []common.Address
 	for _, contractAddress := range contractAddresses {
@@ -138,10 +128,9 @@ func RpcFilterLogs(ctx context.Context, startBlock int64, endBlock int64, contra
 	return logs, nil
 }
 
-// RpcTokenBalance 获取token余额
 func RpcTokenBalance(ctx context.Context, tokenAddress string, address string) (*big.Int, error) {
 	tokenAddressHash := common.HexToAddress(tokenAddress)
-	// 生成交易
+
 	contractAbi, err := abi.JSON(strings.NewReader(EthABI))
 	if err != nil {
 		return nil, err
@@ -176,13 +165,3 @@ func RpcTokenBalance(ctx context.Context, tokenAddress string, address string) (
 	}
 	return out0, nil
 }
-
-// RpcNftTotalSupply 获取ERC721总数
-//func RpcNftTotalSupply(opts *bind.CallOpts) (*big.Int, error) {
-//	var (
-//		ret0 = new(*big.Int)
-//	)
-//	out := ret0
-//	err := _ERC721.contract.Call(opts, out, "totalSupply")
-//	return *ret0, err
-//}
