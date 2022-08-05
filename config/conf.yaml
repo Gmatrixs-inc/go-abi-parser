@@ -1,0 +1,7 @@
+Version: '0.1'
+
+
+Eth:
+   Rpcurl: http://localhost:8888/rpc
+   chainid: 1
+   networkid: 1
