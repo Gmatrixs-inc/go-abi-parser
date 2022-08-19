@@ -5,7 +5,9 @@ go 1.18
 require (
 	github.com/ethereum/go-ethereum v1.10.8
 	github.com/moremorefun/mcommon v0.1.155
-	github.com/shopspring/decimal v1.2.0
+	github.com/sirupsen/logrus v1.9.0
+	github.com/spf13/cobra v1.5.0
+	github.com/spf13/viper v1.12.0
 )
 
 require (
@@ -49,10 +51,8 @@ require (
 	github.com/speps/go-hashids v2.0.0+incompatible // indirect
 	github.com/spf13/afero v1.9.2 // indirect
 	github.com/spf13/cast v1.5.0 // indirect
-	github.com/spf13/cobra v1.5.0 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
-	github.com/spf13/viper v1.12.0 // indirect
 	github.com/subosito/gotenv v1.4.0 // indirect
 	github.com/tencentcloud/tencentcloud-sdk-go v3.0.233+incompatible // indirect
 	github.com/tklauser/go-sysconf v0.3.5 // indirect
