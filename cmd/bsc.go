@@ -12,25 +12,25 @@ import (
 	"strings"
 )
 
-type Ethfilter struct {
+type Bscfilter struct {
 	contract    []string
 	contractAbi abi.ABI
 }
 
-func NewBscfilter() *Ethfilter {
-	rpcUri := viper.GetString("Eth.Rpcurl")
+func NewBscFilter() *Bscfilter {
+	rpcUri := viper.GetString("Bsc.Rpcurl")
 	cabi, err := abi.JSON(strings.NewReader(ethclient.ERC721ABI))
 	if err != nil {
 		fmt.Println(err)
 	}
 	ethclient.InitClient(rpcUri)
-	return &Ethfilter{
-		contract:    []string{viper.GetString("Eth.ContractAddress")},
+	return &Bscfilter{
+		contract:    []string{viper.GetString("Bsc.ContractAddress")},
 		contractAbi: cabi,
 	}
 }
 
-func (e *Ethfilter) Scan(startI, endI int64) {
+func (e *Bscfilter) Scan(startI, endI int64) {
 
 	var tokeinds []string
 	for i := startI; i < endI; i++ {
@@ -65,7 +65,7 @@ func (e *Ethfilter) Scan(startI, endI int64) {
 	}
 }
 
-var ethCmd = &cobra.Command{
+var bscCmd = &cobra.Command{
 	Use:   "eth",
 	Short: "Eth log parser",
 	Long:  `Eth log parser`,
