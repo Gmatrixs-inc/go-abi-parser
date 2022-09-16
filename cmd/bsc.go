@@ -21,7 +21,7 @@ func NewBscFilter() *Bscfilter {
 	rpcUri := viper.GetString("Bsc.Rpcurl")
 	cabi, err := abi.JSON(strings.NewReader(ethclient.ERC721ABI))
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("reader err:", err)
 	}
 	ethclient.InitClient(rpcUri)
 	return &Bscfilter{
@@ -43,6 +43,7 @@ func (e *Bscfilter) Scan(startI, endI int64) {
 				e.contractAbi.Events["Transfer"],
 			)
 			if err != nil {
+				fmt.Println("scan err:", err)
 				return
 			}
 
@@ -66,11 +67,12 @@ func (e *Bscfilter) Scan(startI, endI int64) {
 }
 
 var bscCmd = &cobra.Command{
-	Use:   "eth",
-	Short: "Eth log parser",
-	Long:  `Eth log parser`,
+	Use:   "bnb",
+	Short: "Bsc log parser",
+	Long:  `Bsc log parser`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("eth log parser")
-
+		fmt.Println("bsc log parser")
+		bscfilter := NewBscFilter()
+		bscfilter.Scan(startI, endI)
 	},
 }

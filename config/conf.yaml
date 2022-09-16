@@ -2,6 +2,13 @@ Version: '0.1'
 
 
 Eth:
-   Rpcurl: http://localhost:8888/rpc
+   Rpcurl: "https://mainnet.infura.io/v3/ee07e33cb6414781a72deaf3b303ca3b"
+   ContractAddress: "0x8d12A197cB00D4747a1fe03395095ce2A5D062a5"
    chainid: 1
    networkid: 1
+
+Bsc:
+   Rpcurl: "https://bsc.nodereal.io"
+   ContractAddress: "0xa0c65fc035706ac5ed28f22ce8922fc7081ee7f3"
+   chainid: 56
+   networkid: 56

@@ -17,7 +17,7 @@ type Ethfilter struct {
 	contractAbi abi.ABI
 }
 
-func NewBscfilter() *Ethfilter {
+func NewEthfilter() *Ethfilter {
 	rpcUri := viper.GetString("Eth.Rpcurl")
 	cabi, err := abi.JSON(strings.NewReader(ethclient.ERC721ABI))
 	if err != nil {
@@ -71,6 +71,7 @@ var ethCmd = &cobra.Command{
 	Long:  `Eth log parser`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("eth log parser")
-
+		ethfilter := NewEthfilter()
+		ethfilter.Scan(startI, endI)
 	},
 }
