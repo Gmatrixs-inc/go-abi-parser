@@ -3,25 +3,34 @@ package cmd
 import (
 	"context"
 	"fmt"
+	"gabiparser/common"
 	"gabiparser/ethclient"
 	"gabiparser/hethd"
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common/math"
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"strings"
 )
+
+var logger *log.Entry
 
 type Bscfilter struct {
 	contract    []string
 	contractAbi abi.ABI
 }
 
+func init() {
+	logger = common.NewLogger()
+}
+
 func NewBscFilter() *Bscfilter {
 	rpcUri := viper.GetString("Bsc.Rpcurl")
 	cabi, err := abi.JSON(strings.NewReader(ethclient.ERC721ABI))
 	if err != nil {
-		fmt.Println("reader err:", err)
+		//fmt.Println("reader err:", err)
+		logger.Errorf("reader err:%+v", err)
 	}
 	ethclient.InitClient(rpcUri)
 	return &Bscfilter{
@@ -53,15 +62,16 @@ func (e *Bscfilter) Scan(startI, endI int64) {
 				fromaddr := hethd.CommonHashToAddrssStringLower(log.Topics[1])
 				tokenId, ok := math.ParseBig256(log.Topics[3].Hex())
 				if !ok {
-					fmt.Printf("invalid hex or decimal integer %d", tokenId)
+					logger.Errorf("invalid hex or decimal integer %d", tokenId)
 				}
 
 				if fromaddr == "0x0000000000000000000000000000000000000000" {
 					tokeinds = append(tokeinds, tokenId.String())
 				}
 				fmt.Println(txid, fromaddr, toaddr, tokenId)
+				logger.Info("txid: ", txid, "fromaddr: ", fromaddr, "toaddr: ", toaddr, "tokenid: ", tokenId)
 			}
-			fmt.Println(len(tokeinds))
+			logger.Debugln(len(tokeinds))
 		}
 	}
 }
