@@ -29,7 +29,6 @@ func NewBscFilter() *Bscfilter {
 	rpcUri := viper.GetString("Bsc.Rpcurl")
 	cabi, err := abi.JSON(strings.NewReader(ethclient.ERC721ABI))
 	if err != nil {
-		//fmt.Println("reader err:", err)
 		logger.Errorf("reader err:%+v", err)
 	}
 	ethclient.InitClient(rpcUri)
