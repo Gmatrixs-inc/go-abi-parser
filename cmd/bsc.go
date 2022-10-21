@@ -60,8 +60,11 @@ func (e *Bscfilter) Scan(startI, endI int64) {
 				toaddr := hethd.CommonHashToAddrssStringLower(log.Topics[2])
 				fromaddr := hethd.CommonHashToAddrssStringLower(log.Topics[1])
 				tokenId, ok := math.ParseBig256(log.Topics[3].Hex())
+				logger.Debugf("txid: %v toaddr %v fromaddr: %v", txid, toaddr, fromaddr)
+
 				if !ok {
 					logger.Errorf("invalid hex or decimal integer %d", tokenId)
+					logger.Fatal("invalid hex or decimal integer %d", tokenId)
 				}
 
 				if fromaddr == "0x0000000000000000000000000000000000000000" {
