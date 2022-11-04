@@ -31,7 +31,7 @@ func NewEthfilter() *Ethfilter {
 }
 
 func (e *Ethfilter) Scan(startI, endI int64) {
-
+	fullZeroAddress := "0x0000000000000000000000000000000000000000"
 	var tokeinds []string
 	for i := startI; i < endI; i++ {
 		if len(e.contract) > 0 {
@@ -58,7 +58,7 @@ func (e *Ethfilter) Scan(startI, endI int64) {
 					logger.Fatal("invalid hex or decimal integer %d", tokenId)
 				}
 
-				if fromaddr == "0x0000000000000000000000000000000000000000" {
+				if fromaddr == fullZeroAddress {
 					tokeinds = append(tokeinds, tokenId.String())
 				}
 			}
