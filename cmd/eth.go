@@ -35,7 +35,7 @@ func (e *Ethfilter) Scan(startI, endI int64) {
 	var tokeinds []string
 	for i := startI; i < endI; i++ {
 		if len(e.contract) > 0 {
-			logs, err := ethclient.RpcFilterLogs(
+			translogs, err := ethclient.RpcFilterLogs(
 				context.Background(),
 				i,
 				i,
@@ -46,11 +46,11 @@ func (e *Ethfilter) Scan(startI, endI int64) {
 				return
 			}
 
-			for _, log := range logs {
-				txid := log.TxHash.Hex()
-				toaddr := hethd.CommonHashToAddrssStringLower(log.Topics[2])
-				fromaddr := hethd.CommonHashToAddrssStringLower(log.Topics[1])
-				tokenId, ok := math.ParseBig256(log.Topics[3].Hex())
+			for _, tobj := range translogs {
+				txid := tobj.TxHash.Hex()
+				toaddr := hethd.CommonHashToAddrssStringLower(tobj.Topics[2])
+				fromaddr := hethd.CommonHashToAddrssStringLower(tobj.Topics[1])
+				tokenId, ok := math.ParseBig256(tobj.Topics[3].Hex())
 				logger.Debugf("txid: %v toaddr %v fromaddr: %v", txid, toaddr, fromaddr)
 
 				if !ok {
